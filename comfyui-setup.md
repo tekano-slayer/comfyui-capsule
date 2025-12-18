@@ -5,17 +5,17 @@ This guide walks through deploying ComfyUI in a Docker container with GPU suppor
 storage for models and outputs, and automatic directory initialization.
 
 ## Directory Structure
-comfyui-docker/  
-├── docker-compose.yml  
-├── Dockerfile  
-├── entrypoint.sh  
-├── models/ (created automatically)  
-├── output/ (created automatically)  
-├── input/ (created automatically)  
-└── custom_nodes/ (created automatically)  
+comfyui-docker/
+├── docker-compose.yml
+├── Dockerfile
+├── entrypoint.sh
+├── models/ (created automatically)
+├── output/ (created automatically)
+├── input/ (created automatically)
+└── custom_nodes/ (created automatically)
 
 ## Step-by-Step Setup
-***Must run capsule code command as this uses multiple terminal sessions***  
+***Must run capsule code command as this uses multiple terminal sessions***
 <ins>capsule code -u [Machine Name]</ins>
 
 ### 1. Create Project Directory
@@ -28,29 +28,30 @@ Create a file named Dockerfile with the following content:
 
 ```bash
 FROM python:3.12-slim-bookworm
+
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-  git \ 
-  wget \ 
-  curl \
-  sudo \ 
-  vim \ 
-  nano \ 
-  htop \ 
-  libgl1-mesa-glx \ 
-  libglib2.0-0 \ 
-  libsm6 \ 
-  libxext6 \ 
-  libxrender-dev \ 
-  libgomp1 \ 
-  && rm -rf /var/lib/apt/lists/*
+    git \
+    wget \
+    curl \
+    sudo \
+    vim \
+    nano \
+    htop \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Create user with sudo access
-RUN useradd -m -s /bin/bash comfyuser && \ 
-  echo "comfyuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN useradd -m -s /bin/bash comfyuser && \
+    echo "comfyuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # Switch to user
 USER comfyuser
@@ -72,7 +73,6 @@ RUN cp -r models models_default && cp -r custom_nodes custom_nodes_default && cp
 
 # Copy entrypoint script
 COPY --chown=comfyuser:comfyuser entrypoint.sh /home/comfyuser/entrypoint.sh
-
 RUN chmod +x /home/comfyuser/entrypoint.sh
 
 # Expose ComfyUI port
@@ -106,7 +106,6 @@ services:
               capabilities: [gpu]
     stdin_open: true
     tty: true
-
     restart: unless-stopped
 ```
 ### 4. Create the Entrypoint Script
@@ -160,7 +159,7 @@ docker compose up -d
 ```
 
 ### 7. Verify It's Running
-Check container status:  
+Check container status:
 ```bash
 docker compose ps
 ```
@@ -185,7 +184,7 @@ If you're connected to the server via VS Code Remote SSH:
 3. Alternatively, you can also:
 * Press F1 or Ctrl+Shift+P (Windows/Linux) / Cmd+Shift+P (Mac)
 * Type "Forward a Port"
-* Press the “World” Icon
+* Press the "World" Icon
 
 ## Common Operations
 
