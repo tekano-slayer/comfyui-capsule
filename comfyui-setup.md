@@ -5,6 +5,7 @@ This guide walks through deploying ComfyUI in a Docker container with GPU suppor
 storage for models and outputs, and automatic directory initialization.
 
 ## Directory Structure
+```
 comfyui-docker/
 ├── docker-compose.yml
 ├── Dockerfile
@@ -13,6 +14,7 @@ comfyui-docker/
 ├── output/ (created automatically)
 ├── input/ (created automatically)
 └── custom_nodes/ (created automatically)
+```
 
 ## Step-by-Step Setup
 ***Must run capsule code command as this uses multiple terminal sessions***
